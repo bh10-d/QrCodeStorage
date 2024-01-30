@@ -36,4 +36,11 @@ yarn-error.*
 
 
 #windows
+%ProgramData%/
 %ProgramData%\
+%ProgramData%\\
+%ProgramData%//
+./%ProgramData%/
+./%ProgramData%//
+./%ProgramData%\\
+./%ProgramData%\
