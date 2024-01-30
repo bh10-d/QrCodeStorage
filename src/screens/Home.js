@@ -24,7 +24,7 @@ const Main = (props)=>{
     const getQRConvert = useRef();
 
     const albumName = 'QRCodeStorage'
-    // 'zalo','kakaotalk','bidv','techcom','vietcom','agribank','wechat'
+
     const listQR = [
         {label: 'Zalo', value: 'zalo'},
         {label: 'KakaoTalk', value: 'kakao'},
@@ -91,28 +91,14 @@ const Main = (props)=>{
         //   aspect: [4,3],
             quality:1,
         });
-        // console.log(result);
         if(!result.canceled) {
             setImage(result.assets[0].uri);
-            // setList([...list, {
-            //     filename: result.assets[0].fileName,
-            //     uri: result.assets[0].uri
-            // }])
-
             const results = await BarCodeScanner.scanFromURLAsync(result.assets[0].uri)
-            // console.log(results[0].bounds);
-            // console.log(results[0].cornerPoints)
             setValueQR(results[0].data)
-
-
-            
-            // console.log(results)
-            // console.log(results[0].data)
         }
     }
 
     // console.log(typeof props.widthWindow.widthWindow)
-
 
     const LANDSCAPE = (props)=>{
         const CButton = ({className, title, width, height, space, borderRadius, ...props})=>{
@@ -136,7 +122,6 @@ const Main = (props)=>{
             
             return list.list.map((button, index) => {
                 return(
-                    // <CButton key={index} name='Zalo' uri={button.uri}/>
                     <CButton key={index} className="mr-2" title={button.title} uri={button.uri} width="100" height="50" space={{x: 3, y:3}} borderRadius="5"/>
                 )
             })
@@ -144,12 +129,6 @@ const Main = (props)=>{
 
         const handleSaveQRImage = () => {
             (async () => {
-                // if(getQRConvert.current != undefined){
-                //     getQRConvert.current.toDataURL((data)=>{
-                //         setChange('data:image/png;base64,'+data)
-                //     })
-                // }
-                // console.log(change)
                 if(change != null){
                     const base64Code = change.split("data:image/png;base64,")[1];
     
@@ -158,29 +137,19 @@ const Main = (props)=>{
                         encoding: FileSystem.EncodingType.Base64,
                     });
     
-                    // const mediaResult = await MediaLibrary.saveToLibraryAsync(filename);
-                    // console.log(mediaResult)
-                    // console.log(filename)
-
                     setImage(filename)
 
                     setList([...list, {
-                        // filename: result.assets[0].fileName,
                         title: valueItem,
                         uri: filename
                     }])
     
                     const albumasset = await MediaLibrary.getAlbumAsync(albumName);
-                    // console.log(albumasset)
                     const cachedAsset = await MediaLibrary.createAssetAsync(filename);
                     if(albumasset != null){ // cung thay k co tac dung gi may (chua trien khai het duoc chuc nang)
                         const test = await MediaLibrary.createAlbumAsync(albumName, cachedAsset, false);
-                        // console.log(test)
-                        // console.log(valueQR)
                     }
-                    // console.log("first")
                 }
-                // console.log("running....")
                 
             })();
             setChange(null)
@@ -198,8 +167,6 @@ const Main = (props)=>{
             setImage(null)
             setList([])
         }
-
-        // console.log(list)
 
         return (
             <View className="flex flex-row h-screen">
@@ -237,15 +204,6 @@ const Main = (props)=>{
                     </View>
                 </View>
                 <View className="basis-1/3">
-                    {/* {list.map((item, index) => (
-                        <Text style={styles.title} key={index}>{item.uri}</Text>
-                        ))}
-                        <Pressable onPress={touch}>
-                        {image && <Image source={{uri: image}} style={styles.image}/>}
-                    </Pressable> */}
-        
-                    {/* <Button title="Choose Image" onPress={pickImage}/> */}
-    
                     <View>
                         <View className="flex items-center mt-5">
                             <Text className="text-bl font-bold tracking-wider text-xl text-center">When you scan QR code please check my name:</Text>
@@ -254,8 +212,6 @@ const Main = (props)=>{
                     </View>
                     <View className="flex-row h-[65%] justify-end">
                         <View className="flex-1 justify-center items-center">
-                            
-                            {/* <Image source={require("../../assets/zalotest.jpg")} style={{width: '98%', height: 400, borderRadius: 20}}/> */}
                             {
                                 (valueQR.length == 0)?
                                     <Image 
@@ -295,20 +251,6 @@ const Main = (props)=>{
         )
     }else{
         return(
-            // <View style={props.stylesLanscape}>
-            //     {list.map((item, index) => (
-            //         <Text style={styles.title} key={index}>{item.uri}</Text>
-            //     ))}
-            //     <Pressable onPress={touch}>
-            //         {image && <Image source={{uri: image}} style={styles.image}/>}
-            //     </Pressable>
-    
-            //     <Button title="Choose Image" onPress={pickImage}/>
-    
-            //     <View style={{ flexDirection: 'row', flexWrap: 'row' }}>
-            //         <ListButton/>
-            //     </View>
-            // </View>
             <LANDSCAPE list={list} image={image} onPress={pickImage}/>
         )
     }
@@ -317,8 +259,6 @@ const Main = (props)=>{
 export default function Home(widthWindow){
     return (
         <View className="h-full w-full">
-           {/* <Header centerComponent={{text: "Storage QR Code", style: styles.container}}/> */}
-            {/* <Text>This is Home screen and button menu here</Text> */}
             <Main filename={require("../../assets/zalotest.jpg")} widthWindow={widthWindow}/>
             {/* <ScanQR/> */}
             {/* <Test/> */}
